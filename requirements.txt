@@ -1,8 +1,3 @@
-accelerate
-evaluate
-datasets
-deepspeed
 numpy
 transformers
 torch
-tqdm

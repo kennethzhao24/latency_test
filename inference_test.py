@@ -1,8 +1,6 @@
 import argparse
 import json
-import torch
 
-from deepspeed.profiling.flops_profiler import get_model_profile
 from transformers import AutoConfig, AutoTokenizer, GPT2LMHeadModel, GPTNeoXForCausalLM, AutoModelForCausalLM
 
 from models import OPTModel
@@ -71,12 +69,6 @@ def main():
         inputs = dict(inputs)
         return inputs
 
-    with torch.cuda.device(0):
-        flops, macs, params = get_model_profile(model,
-                    kwargs=input_constructor(args.batch_size, args.seq_len),
-                    print_profile=False,
-                    detailed=False
-                    )
         
     if args.cuda:
         device = 'cuda'
@@ -88,10 +80,7 @@ def main():
                                         seq_len=args.seq_len, 
                                         n_trials=16,
                                         device=device) * 1000
-
-    print("Param size = {}".format(params))
-    print("FLOPs = {}".format(flops))
-    print("MACs = {}".format(macs))
+    
     print("Latency = {:.2f} ms".format(latency))
 
 
