@@ -1,7 +1,6 @@
 import torch
 import torch.utils.checkpoint
 from torch import nn
-from transformers.activations import ACT2FN
 
 from typing import Optional, Tuple
 
@@ -167,7 +166,7 @@ class OPTLayer(nn.Module):
             dropout=attention_dropout,
         )
         self.dropout = dropout
-        self.activation_fn = ACT2FN[activation_function]
+        self.activation_fn = nn.ReLU()
         self.self_attn_layer_norm = nn.LayerNorm(self.embed_dim)
         self.fc1 = nn.Linear(self.embed_dim, ffn_dim)
         self.fc2 = nn.Linear(ffn_dim, self.embed_dim)
